@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Modelo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+  <section class="container" id="app">
+    <h1 class="mt-4">Timer</h1>
+    <p class="resultado display-4">{{ resultado }}</p>
+    <button class="btn btn-primary init" @click="startTimer">Iniciar</button>
+    <button class="btn btn-primary pause" @click="pauseTimer">Pausar</button>
+    <button class="btn btn-primary res" @click="resetTimer">Reiniciar</button>
+  </section>
+
+  <script src="dist/bundle.js"></script>
+</body>
+
+</html>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        resultado: '00:00:00',
+        timer: null,
+        segundos: 0
+      },
+      methods: {
+        startTimer() {
+          this.timer = setInterval(() => {
+            this.segundos++;
+            this.resultado = this.cria(this.segundos);
+          }, 1000);
+        },
+        pauseTimer() {
+          clearInterval(this.timer);
+        },
+        resetTimer() {
+          clearInterval(this.timer);
+          this.segundos = 0;
+          this.resultado = '00:00:00';
+        },
+        cria(segundos) {
+          const data = new Date(segundos * 1000);
+          return data.toLocaleTimeString('pt-BR', {
+            hour12: false,
+            timeZone: 'UTC'
+          });
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
